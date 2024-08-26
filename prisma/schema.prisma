@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  credits       Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  images        Image[]
+  transactions  Transaction[]
+  apiLogs       ApiLog[]
+  payments      Payment[]
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  prompt    String
+  imageUrl  String
+  isPublic  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  amount    Float
+  credits   Int
+  stripeId  String
+  createdAt DateTime @default(now())
+}
+
+model ApiLog {
+  id        Int      @id @default(autoincrement())
+  userId    String?
+  endpoint  String
+  method    String
+  status    Int
+  ip        String
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  sessionId String   @unique
+  amount    Int
+  credits   Int
+  userEmail String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userEmail], references: [email])
+}
