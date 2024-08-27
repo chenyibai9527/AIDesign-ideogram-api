@@ -4,6 +4,9 @@ AIDesign is an AI-powered image generation website built with Next.js and React.
 
 [中文说明](./README_cn.md)
 
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/chenyibai9527/AIDesign-ideogram-api)
+
 ## Features
 
 - AI-powered image generation from text prompts
