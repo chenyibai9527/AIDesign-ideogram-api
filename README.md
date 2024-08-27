@@ -2,7 +2,7 @@
 
 AIDesign is an AI-powered image generation website built with Next.js and React. Users can create unique images from text descriptions using the Ideogram API.
 
-[中文说明](./README_CN.md)
+[中文说明](./README_cn.md)
 
 ## Features
 
